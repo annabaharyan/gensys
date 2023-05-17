@@ -1,0 +1,47 @@
+.logo {
+  max-width: 289px;
+  width: 100%;
+  font-family: var(--font-archivo);
+  font-weight: 500;
+  font-size: 32px;
+}
+.logo p {
+  letter-spacing: 0.2rem;
+}
+.ul {
+  max-width: 930px;
+  width: 100%;
+  font-family: var(--font-raleway);
+  gap: 40px;
+}
+
+.menu {
+  height: 48px;
+  width: 48px;
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 50px;
+}
+
+.menu:before,
+.menu:after,
+.menu div {
+  background: #000000;
+  content: "";
+  display: block;
+  height: 7px;
+  border-radius: 3px;
+  margin: 7px 0;
+  transition: 0.5s;
+}
+.menu.open:before {
+  transform: translateY(12px) rotate(135deg);
+}
+.menu.open:after {
+  transform: translateY(-12px) rotate(-135deg);
+}
+.menu.open div {
+  transform: scale(0);
+}
