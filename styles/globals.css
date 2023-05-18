@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @layer base {
+  @font-face {
+    font-family: "Archivo";
+    src: url("/fonts/Archivo.woff2") format(woff2);
+  }
+}
+@layer base {
+  @font-face {
+    font-family: "Raleway";
+    src: url("/fonts/Raleway.woff2") format(woff2);
+  }
+} */
+:root {
+  --background-color: #fff;
+}
+
+body {
+  box-sizing: border-box;
+  background-color: var(--background-color);
+}
