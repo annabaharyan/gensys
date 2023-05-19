@@ -1,3 +1,28 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals","eslint:recommended", "next", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "eqeqeq": ["warn", "smart"],
+    "no-console": "warn",
+    "prefer-const": "error",
+    "no-var": "error",
+    "prefer-spread": "warn",
+    "prefer-destructuring": "warn",
+    "no-duplicate-imports": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object",
+          "type"
+        ]
+      }
+    ]
+  }
 }

@@ -19,46 +19,83 @@ const raleway = Raleway({
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav className={` w-full flex justify-between py-2 `}>
-      <Link
-        href="/"
-        className={`${styles.logo} flex items-center justify-center gap-2`}
+    <>
+      <nav
+        className={`w-full flex  ${
+          isOpen ? "justify-end" : "justify-between"
+        } gap-7 py-2 px-5 xs:text-lg `}
       >
-        <Image
-          src="/assets/images/logomark.png"
-          alt="gensys-logo"
-          width={116}
-          height={64}
-        />
-        <p className={`${archivo.variable}`}>GENSYS</p>
-      </Link>
-      <div
-        className={`${raleway.variable} flex items-center justify-between font-bold  relative`}
-      >
-        <ul
-          className={`${raleway.variable} ${styles.ul} xl:flex items-center justify-center sm:mx-10   hidden`}
+        <Link
+          href="/"
+          className={`${
+            styles.logo
+          } flex items-center justify-center gap-2 xs:text-lg xl:text-2xl ${
+            isOpen ? "hidden" : ""
+          }`}
         >
-          <Link href="/portfolio">PORTFOLIO</Link>
-          <Link href="/services">SERVICES</Link>
-          <Link href="/our-story">OUR STORY</Link>
-          <Link href="/career">CAREERS</Link>
-          <Link href="/calculator">CALCULATOR</Link>
-        </ul>
-        <button className="bg-[#3F8CFF] font-bold py-3 px-6 sm:mr-28 xl:mr-0">
-          JUST IN TOUCH
-        </button>
+          <Image
+            src="/assets/images/logomark.png"
+            alt="gensys-logo"
+            width={116}
+            height={64}
+          />
+          <p className={`${archivo.variable} font-black`}>GENSYS</p>
+        </Link>
         <div
-          className={`xl:hidden ${
-            isOpen ? `${styles.menu} ${styles.open} ` : ` ${styles.menu}`
-          } `}
-          onClick={() => {
-            setIsOpen((prev) => !prev);
-          }}
+          className={`${raleway.variable} flex items-center justify-between  gap-4 font-bold  relative `}
         >
-          <div></div>
+          <ul
+            className={`${raleway.variable} ${styles.ul} lg:flex items-center justify-center gap-12 text-center lg:text-sm xl:text-lg   hidden`}
+          >
+            <Link href="/portfolio">PORTFOLIO</Link>
+            <Link href="/services">SERVICES</Link>
+            <Link href="/our-story">OUR STORY</Link>
+            <Link href="/career">CAREERS</Link>
+            <Link href="/calculator">CALCULATOR</Link>
+          </ul>
+          <button className="bg-[#3F8CFF] font-bold py-3 px-5 xs:px-3 xs:mr-16 sm:mr-20 lg:mr-0 xs:text-sm  ">
+            JUST IN TOUCH
+          </button>
+          <div
+            className={`lg:hidden xs:w-9 sm:w-12 ${
+              isOpen ? `${styles.menu} ${styles.open} ` : ` ${styles.menu}`
+            } `}
+            onClick={() => {
+              setIsOpen((isOpen) => !isOpen);
+            }}
+          >
+            <div></div>
+          </div>
         </div>
-      </div>
-      
-    </nav>
+      </nav>
+      {isOpen && (
+        <ul
+          className={`${raleway.variable} ${styles.ul} ${styles.ul_menu}  flex flex-col pl-10 pt-8 font-black relative`}
+        >
+          <Link href="/portfolio" onClick={() => setIsOpen(false)}>
+            PORTFOLIO
+          </Link>
+          <Link href="/services" onClick={() => setIsOpen(false)}>
+            SERVICES
+          </Link>
+          <Link href="/our-story" onClick={() => setIsOpen(false)}>
+            OUR STORY
+          </Link>
+          <Link href="/career" onClick={() => setIsOpen(false)}>
+            CAREERS
+          </Link>
+          <Link href="/calculator" onClick={() => setIsOpen(false)}>
+            CALCULATOR
+          </Link>
+          <Image
+            src="/assets/images/menu.png"
+            alt="menu"
+            width={691}
+            height={581}
+            className="absolute right-0 bottom-0 w-auto h-auto"
+          />
+        </ul>
+      )}
+    </>
   );
 }
