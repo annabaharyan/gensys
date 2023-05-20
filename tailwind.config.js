@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,9 +8,12 @@ module.exports = {
   ],
   theme: {
     colors: {
-      transparent: "transparent",
-      white: "#ffffff",
       blue: "#3F8CFF",
+      darkBlue: "#00003C",
+      activeBlue: "#0066FF",
+      white: "#ffffff",
+      black: "#000000",
+      transparent: "transparent",
     },
     screens: {
       xs: "320px",
@@ -20,10 +24,25 @@ module.exports = {
       ["2xl"]: "1540px",
       ["3xl"]: "1920px",
     },
-  },
-  extend: {
-    padding: {
-      "120px": "120px",
+    extend: {
+      padding: {
+        "120px": "120px",
+      },
+      margin: {
+        "120px": "120px",
+      },
+      maxWidth: {
+        "1200px": "1200px",
+      },
+      width: {
+        "588px": "588px",
+        "282px": "282px",
+        "167px": "167px",
+      },
+      fontFamily: {
+        archivo: ["var(--font-archivo)"],
+        raleway: ["var(--font-raleway)"],
+      },
     },
   },
   plugins: [],

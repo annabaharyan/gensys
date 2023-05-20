@@ -1,7 +1,6 @@
 .logo {
   max-width: 289px;
   width: 100%;
-  font-family: var(--font-archivo);
   font-weight: 500;
   font-size: 32px;
 }
@@ -11,7 +10,6 @@
 .ul {
   max-width: 930px;
   width: 100%;
-  font-family: var(--font-raleway);
   gap: 40px;
 }
 
