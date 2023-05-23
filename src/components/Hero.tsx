@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className="max-w-[1200px] w-full m-auto flex justify-center  xs:flex-wrap xs:text-center lg:text-left lg:flex-nowrap gap-x-6 xs:my-16 lg:my-[120px] p-5 ">
       <div className="w-[588px] flex flex-col gap-y-6">
-        <h1 className="font-normal font-archivo tracking-wider text-transparent text-8xl text-black">
+        <h1 className="font-normal font-archivo tracking-wider text-8xl text-black">
           CREATING YOUR OWN STORY
         </h1>
         <p className="font-normal font-raleway">
