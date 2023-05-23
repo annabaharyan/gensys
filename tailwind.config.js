@@ -3,7 +3,7 @@
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -33,6 +33,7 @@ module.exports = {
       },
       maxWidth: {
         "1200px": "1200px",
+        "948px": "948px"
       },
       width: {
         "588px": "588px",

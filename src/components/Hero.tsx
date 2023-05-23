@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { HiOutlineCalculator } from "react-icons/hi2";
 
-type Props = {};
 
-export default function Hero({}: Props) {
+export default function Hero() {
   return (
-    <section className="max-w-[1200px] w-full m-auto flex justify-center  xs:flex-wrap xs:text-center lg:text-left lg:flex-nowrap gap-x-6 my-[120px] p-5 ">
+    <section className="max-w-[1200px] w-full m-auto flex justify-center  xs:flex-wrap xs:text-center lg:text-left lg:flex-nowrap gap-x-6 xs:my-16 lg:my-[120px] p-5 ">
       <div className="w-[588px] flex flex-col gap-y-6">
-        <h1 className="font-normal font-archivo tracking-wider text-transparent text-8xl bg-clip-text bg-gradient-to-r from-blue to-darkBlue">
+        <h1 className="font-normal font-archivo tracking-wider text-transparent text-8xl text-black">
           CREATING YOUR OWN STORY
         </h1>
         <p className="font-normal font-raleway">
@@ -29,7 +28,7 @@ export default function Hero({}: Props) {
       </div>
       <div>
         <Image
-          src="/assets/images/home1.png"
+          src="/assets/images/hero/hero.svg"
           alt="hero"
           width={588}
           height={576}

@@ -1,8 +1,6 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/src/components/Navbar";
 import "../styles/globals.css";
-import Hero from "@/components/Hero";
 import { Archivo, Raleway } from "next/font/google";
-import Services from "@/components/Services";
 
 export const archivo = Archivo({
   variable: "--font-archivo",
@@ -25,13 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="max-w-[1920px]  mx-auto">
+      <body className="max-w-[1920px] mx-auto">
         <Navbar />
-        <Hero />
-        <Services />
-        {/* <main className="flex min-h-screen flex-col items-center justify-between p-24">
-          {children}
-        </main> */}
+        <main>{children}</main>
       </body>
     </html>
   );

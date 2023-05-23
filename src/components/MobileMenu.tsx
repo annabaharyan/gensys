@@ -1,30 +1,28 @@
 import Link from "next/link";
 import styles from "@/styles/navbar.module.css";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
-import { PageInfo } from "./Navbar";
-
+import pages from "@/src/assets/config/pages.json";
 type Props = {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  pages: PageInfo[];
+  closeMenu: () => void;
 };
 
-export default function MobileMenu({ setIsOpen, pages }: Props) {
+export default function MobileMenu({ closeMenu }: Props) {
   return (
     <ul
-      className={`${styles.ul} ${styles.ul_menu} font-raleway bg-white flex flex-col pl-10 pt-8 font-black relative`}
+      className={`${styles.ul_menu} max-w-[948px] w-full font-raleway bg-white flex flex-col gap-y-10 pl-10 pt-8 font-black absolute  top-24 right-0 z-10 text-2xl`}
     >
       {pages.map((page) => (
         <Link
           href={`${page.pagePath}`}
           key={page.pageId}
-          onClick={() => setIsOpen(false)}
+          onClick={closeMenu}
+          className="hover:text-activeBlue duration-500"
         >
           {page.pageName}
         </Link>
       ))}
       <Image
-        src="/assets/images/menu.png"
+        src="/assets/images/menu/toggle-menu.svg"
         alt="menu"
         width={691}
         height={581}

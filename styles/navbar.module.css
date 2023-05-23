@@ -7,18 +7,6 @@
 .logo p {
   letter-spacing: 0.2rem;
 }
-.ul {
-  max-width: 930px;
-  width: 100%;
-  gap: 40px;
-}
-
-.menu {
-  top: 50%;
-  right: 0;
-  transform: translate(-50%, -50%);
-  position: absolute;
-}
 
 .menu:before,
 .menu:after,
