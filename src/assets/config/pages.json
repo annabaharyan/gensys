@@ -1,0 +1,7 @@
+[
+  { "pageId": 1, "pagePath": "/portfolio", "pageName": "PORTFOLIO" },
+  { "pageId": 2, "pagePath": "/services", "pageName": "SERVICES" },
+  { "pageId": 3, "pagePath": "/our-story", "pageName": "OUR STORY" },
+  { "pageId": 4, "pagePath": "/career", "pageName": "CAREERS" },
+  { "pageId": 5, "pagePath": "/calculator", "pageName": "CALCULATOR" }
+]

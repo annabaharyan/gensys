@@ -1,28 +1,11 @@
 .logo {
   max-width: 289px;
   width: 100%;
-  font-family: var(--font-archivo);
   font-weight: 500;
   font-size: 32px;
 }
 .logo p {
   letter-spacing: 0.2rem;
-}
-.ul {
-  max-width: 930px;
-  width: 100%;
-  font-family: var(--font-raleway);
-  gap: 40px;
-}
-
-.menu {
-  height: 48px;
-  width: 48px;
-  top: 50%;
-  right: 0;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  width: 50px;
 }
 
 .menu:before,
@@ -44,4 +27,44 @@
 }
 .menu.open div {
   transform: scale(0);
+}
+
+.ul_menu {
+  margin: 0;
+  height: 720px;
+  -webkit-animation: scale-in-tr 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: scale-in-tr 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes scale-in-tr {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+    opacity: 1;
+  }
+}
+@keyframes scale-in-tr {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+    opacity: 1;
+  }
 }

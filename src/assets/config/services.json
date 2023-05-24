@@ -1,0 +1,42 @@
+[
+  {
+    "serviceId": 100,
+    "serviceImageUrl": "/assets/images/services/graphic-design.svg",
+    "serviceTitle": "Graphic Design"
+  },
+  {
+    "serviceId": 101,
+    "serviceImageUrl": "/assets/images/services/product-design.svg",
+    "serviceTitle": "Product Design"
+  },
+  {
+    "serviceId": 102,
+    "serviceImageUrl": "/assets/images/services/UIUX-design.svg",
+    "serviceTitle": "UI/UX Design"
+  },
+  {
+    "serviceId": 103,
+    "serviceImageUrl": "/assets/images/services/idea-validation.svg",
+    "serviceTitle": "Idea Validation"
+  },
+  {
+    "serviceId": 104,
+    "serviceImageUrl": "/assets/images/services/management.svg",
+    "serviceTitle": "Management"
+  },
+  {
+    "serviceId": 105,
+    "serviceImageUrl": "/assets/images/services/fundraising.svg",
+    "serviceTitle": "Fundraising"
+  },
+  {
+    "serviceId": 106,
+    "serviceImageUrl": "/assets/images/services/investor-engagement.svg",
+    "serviceTitle": "Investor Engagement"
+  },
+  {
+    "serviceId": 107,
+    "serviceImageUrl": "/assets/images/services/application-marketing.svg",
+    "serviceTitle": "Application Marketing"
+  }
+]
