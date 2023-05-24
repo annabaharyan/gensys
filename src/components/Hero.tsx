@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { HiOutlineCalculator } from "react-icons/hi2";
 
-
 export default function Hero() {
   return (
     <section className="max-w-[1200px] w-full m-auto flex justify-center  xs:flex-wrap xs:text-center lg:text-left lg:flex-nowrap gap-x-6 xs:my-16 lg:my-[120px] p-5 ">

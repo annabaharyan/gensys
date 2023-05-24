@@ -1,6 +1,6 @@
+import { Archivo, Raleway } from "next/font/google";
 import Navbar from "@/src/components/Navbar";
 import "../styles/globals.css";
-import { Archivo, Raleway } from "next/font/google";
 
 export const archivo = Archivo({
   variable: "--font-archivo",

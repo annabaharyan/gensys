@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import MobileMenu from "./MobileMenu";
+import { MobileMenuComponent } from "@/src/components";
 import styles from "@/styles/navbar.module.css";
 
 export default function Navbar() {
@@ -45,7 +45,7 @@ export default function Navbar() {
               JUST IN TOUCH
             </button>
             <div
-              className={`w-12 ${
+              className={`w-12 cursor-pointer ${
                 isOpen ? `${styles.open} ${styles.menu}` : `${styles.menu}`
               } `}
               onClick={toggleMenu}
@@ -55,7 +55,7 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      {isOpen && <MobileMenu closeMenu={closeMenu} />}
+      {isOpen && <MobileMenuComponent closeMenu={closeMenu} />}
     </>
   );
 }

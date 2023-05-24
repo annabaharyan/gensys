@@ -1,7 +1,8 @@
 import Link from "next/link";
-import styles from "@/styles/navbar.module.css";
 import Image from "next/image";
 import pages from "@/src/assets/config/pages.json";
+import styles from "@/styles/navbar.module.css";
+
 type Props = {
   closeMenu: () => void;
 };

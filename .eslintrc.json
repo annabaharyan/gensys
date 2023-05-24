@@ -16,6 +16,13 @@
   ],
   "plugins": ["react"],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "react/no-unescaped-entities": 0 ,
     "eqeqeq": ["warn", "smart"],
     "no-console": "warn",
     "prefer-const": "error",
