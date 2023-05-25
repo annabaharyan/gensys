@@ -33,12 +33,15 @@ module.exports = {
       },
       maxWidth: {
         "1200px": "1200px",
-        "948px": "948px"
+        "948px": "948px",
       },
       width: {
         "588px": "588px",
         "282px": "282px",
         "167px": "167px",
+      },
+      height: {
+        "576px": "576px",
       },
       fontFamily: {
         archivo: ["var(--font-archivo)"],

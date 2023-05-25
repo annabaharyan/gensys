@@ -1,9 +1,8 @@
-import Image from "next/image";
 import { HiOutlineCalculator } from "react-icons/hi2";
 
 export default function Hero() {
   return (
-    <section className="max-w-[1200px] w-full m-auto flex justify-center  xs:flex-wrap xs:text-center lg:text-left lg:flex-nowrap gap-x-6 xs:my-16 lg:my-[120px] p-5 ">
+    <section className="max-w-[1200px] w-full m-auto flex justify-center  xs:flex-wrap xs:text-center lg:text-left lg:flex-nowrap gap-x-6 xs:my-16  p-5 relative z-10">
       <div className="w-[588px] flex flex-col gap-y-6">
         <h1 className="font-normal font-archivo tracking-wider text-8xl text-black">
           CREATING YOUR OWN STORY
@@ -24,15 +23,6 @@ export default function Hero() {
             <span>CALCULATE THE COST</span>
           </button>
         </div>
-      </div>
-      <div>
-        <Image
-          src="/assets/images/hero/hero.svg"
-          alt="hero"
-          width={588}
-          height={576}
-          style={{ objectFit: "cover" }}
-        />
       </div>
     </section>
   );

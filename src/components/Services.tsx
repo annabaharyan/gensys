@@ -3,7 +3,7 @@ import services from "@/src/assets/config/services.json";
 
 export default function Services() {
   return (
-    <section className="service-container w-full ">
+    <section className="service-container w-full">
       <h2 className="xs:text-center font-archivo font-semibold xs:text-4xl md:text-8xl pb-6 text-blue 2xl:hidden">
         SERVICES
       </h2>
