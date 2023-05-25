@@ -1,18 +1,18 @@
-/* eslint-disable */
+/*eslint-disable*/
 import { useRef, useEffect } from "react";
 
 export const useCanvas = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef(null);
   useEffect(() => {
     const width = window.innerWidth * 0.75;
     const height = window.innerHeight * 0.75;
-    const gl: WebGLRenderingContext | null | undefined =
+    const gl=
       canvasRef.current?.getContext("webgl");
 
     const mouse = { x: 0, y: 0 };
 
     const numMetaballs = 30;
-    const metaballs: { [key: string]: number }[] = [];
+    const metaballs = [];
     for (let i = 0; i < numMetaballs; i++) {
       const radius = Math.random() * 60 + 10;
       metaballs.push({
@@ -77,7 +77,7 @@ export const useCanvas = () => {
     const vertexShader = compileShader(vertexShaderSrc, gl.VERTEX_SHADER);
     const fragmentShader = compileShader(fragmentShaderSrc, gl.FRAGMENT_SHADER);
 
-    const program: WebGLProgram | null = gl.createProgram();
+    const program = gl.createProgram();
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
@@ -140,7 +140,7 @@ export const useCanvas = () => {
     }
 
     function compileShader(shaderSource, shaderType) {
-      const shader: WebGLShader | null = gl.createShader(shaderType);
+      const shader = gl.createShader(shaderType);
       gl.shaderSource(shader, shaderSource);
       gl.compileShader(shader);
 
@@ -166,7 +166,7 @@ export const useCanvas = () => {
       }
       return attributeLocation;
     }
-    const handler = (e: MouseEvent) => {
+    const handler = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
@@ -176,3 +176,4 @@ export const useCanvas = () => {
   }, []);
   return { canvasRef };
 };
+

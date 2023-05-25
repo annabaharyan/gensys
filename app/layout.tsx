@@ -4,19 +4,20 @@ import { Archivo, Raleway } from "next/font/google";
 import Navbar from "@/src/components/Navbar";
 import "../styles/globals.css";
 import { CanvasComponent } from "@/src/components";
-
+/*eslint-disable*/
 const archivo = Archivo({
   weight: ["400"],
   style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-archivo",
-});
+}); 
 const raleway = Raleway({
   weight: ["400"],
   style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-raleway",
-});
+}); 
+/*eslint-enable*/
 export const metadata: Metadata = {
   title: "Gensys",
 };
