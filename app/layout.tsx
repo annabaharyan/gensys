@@ -1,19 +1,17 @@
-import { Archivo, Raleway } from "next/font/google";
+import { Metadata } from "next";
+import { Archivo } from "next/font/google";
+
 import Navbar from "@/src/components/Navbar";
 import "../styles/globals.css";
 
-export const archivo = Archivo({
+const archivo = Archivo({
+  weight: ["400"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
   variable: "--font-archivo",
-  subsets: ["latin"],
 });
-export const raleway = Raleway({
-  variable: "--font-raleway",
-  subsets: ["latin"],
-});
-
-export const metadata = {
-  title: "GENSYS",
-  description: "Outsourcing company for building apps ",
+export const metadata: Metadata = {
+  title: "Gensys",
 };
 
 export default function RootLayout({
