@@ -2,24 +2,41 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MobileMenuComponent } from "@/src/components";
 import styles from "@/styles/navbar.module.css";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollTop, setScrollTop] = useState<number>(0);
   const toggleMenu: () => void = () => {
     setIsOpen((prev) => !prev);
   };
   const closeMenu: () => void = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollTop(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
       <nav
-        className={`2xl:px-[120px] xl:px-16 w-full  top:0 flex  ${
+        className={`2xl:px-[120px] xl:px-16 max-w-[1920px] w-full top:0  ${
+          isOpen || scrollTop > 0
+            ? "bg-white fixed top-0 z-20"
+            : "bg-transparent relative"
+        } flex  ${
           isOpen ? "justify-end" : "justify-between"
-        } gap-7 py-2 px-0 xs:text-lg  relative`}
+        } gap-7 py-2 px-0 xs:text-lg   z-10`}
       >
         <Link
           href="/"
@@ -54,8 +71,8 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+        {isOpen && <MobileMenuComponent closeMenu={closeMenu} />}
       </nav>
-      {isOpen && <MobileMenuComponent closeMenu={closeMenu} />}
     </>
   );
 }

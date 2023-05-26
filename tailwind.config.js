@@ -41,7 +41,7 @@ module.exports = {
         "167px": "167px",
       },
       height: {
-        "576px": "576px",
+        "700px": "700px",
       },
       fontFamily: {
         archivo: ["var(--font-archivo)"],
