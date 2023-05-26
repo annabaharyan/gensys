@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="max-w-[1920px] mx-auto">
         <Navbar />
-        <CanvasComponent />
+        {/* <CanvasComponent /> */}
         <main>{children}</main>
       </body>
     </html>
