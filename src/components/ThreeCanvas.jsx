@@ -36,7 +36,7 @@ export default function ThreeCanvas() {
         <Suspense fallback={null}>
           <group position={[0, 10, 0]}>
             <Rig>
-              <ModelComponent url="/compressed_backend.glb" />
+              <ModelComponent url="/three.glb" />
             </Rig>
             <ContactShadows
               rotation-x={Math.PI / 2}

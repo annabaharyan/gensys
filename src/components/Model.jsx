@@ -7,6 +7,7 @@ import { useGLTF } from "@react-three/drei";
 export default function Model({ url, ...props }) {
   const group = useRef();
   const { nodes, materials } = useGLTF(url);
+  console.log(nodes);
   useFrame((state) => {
     group.current.children.forEach((child, index) => {
       child.position.y += Math.sin(index * 1000 + state.clock.elapsedTime) / 50;
