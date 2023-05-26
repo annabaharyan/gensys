@@ -28,19 +28,19 @@ export default function ThreeCanvas() {
       <Canvas camera={{ position: [0, -10, 65], fov: 50 }} dpr={[1, 2]}>
         <pointLight position={[100, 100, 100]} intensity={0.8} />
         <hemisphereLight
-          color="#ffffff"
-          groundColor="#b9b9b9"
+          color="#BFDBFE"
+          groundColor="#0066FF"
           position={[-7, 25, 13]}
           intensity={0.85}
         />
         <Suspense fallback={null}>
           <group position={[0, 10, 0]}>
             <Rig>
-              <ModelComponent url="/three.glb" />
+              <ModelComponent url="/compressed.glb" />
             </Rig>
             <ContactShadows
               rotation-x={Math.PI / 2}
-              position={[0, -35, 0]}
+              position={[0, 0, 0]}
               opacity={0.25}
               width={100}
               height={100}
@@ -50,22 +50,6 @@ export default function ThreeCanvas() {
           </group>
         </Suspense>
       </Canvas>
-      <div className="overlay">
-        <a href="https://docs.pmnd.rs/react-three-fiber/examples/showcase">
-          <b>pmnd.rs</b>
-        </a>
-        <a className="right" href="https://codesandbox.io/s/baked-ao-f5sgi">
-          /csb
-        </a>
-
-        <h2>
-          There's not the smallest orb
-          <br />
-          which thou behold'st but in his motion
-          <br />
-          like an angel sings —
-        </h2>
-      </div>
     </>
   );
 }
