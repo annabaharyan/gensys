@@ -13,5 +13,14 @@ body {
 .service-container {
   background: url("/assets/images/services/services-bg.svg") no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
+}
+
+@media (max-width: 768px) {
+  .service-container {
+    background: url("/assets/images/services/services-bg-mobile.svg") no-repeat;
+    background-position: top;
+    background-size: contain;
+    padding: 25px;
+  }
 }

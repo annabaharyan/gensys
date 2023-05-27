@@ -4,14 +4,11 @@ import services from "@/src/assets/config/services.json";
 export default function Services() {
   return (
     <section className="service-container w-full">
-      <h2 className="xs:text-center font-archivo font-semibold  xs:text-4xl md:text-8xl py-6 text-blue 2xl:hidden">
-        SERVICES
-      </h2>
-      <div className="max-w-[1200px] m-auto flex justify-center flex-wrap gap-6">
+      <div className="max-w-[1200px] m-auto flex justify-center flex-wrap gap-6 px-10 ">
         {services.map((service) => (
           <div
             key={service.serviceId}
-            className="w-282px border-2 flex flex-col items-center  pt-4 pb-10 px-10"
+            className="w-282px border-2 flex flex-col items-center  pt-4 pb-10 px-10 box-border"
           >
             <Image
               src={service.serviceImageUrl}

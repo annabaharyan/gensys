@@ -25,7 +25,7 @@ function Rig({ children }) {
 export default function ThreeCanvas() {
   return (
     <>
-      <Canvas camera={{ position: [0, -10, 65], fov: 50 }} dpr={[1, 2]}>
+      <Canvas camera={{ position: [0, -10, 65], fov: 55 }} dpr={[1, 2]}>
         <pointLight position={[100, 100, 100]} intensity={0.8} />
         <hemisphereLight
           color="#BFDBFE"

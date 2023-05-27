@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import { Archivo, Raleway } from "next/font/google";
-
 import Navbar from "@/src/components/Navbar";
 import "../styles/globals.css";
-import { CanvasComponent } from "@/src/components";
+
 /*eslint-disable*/
 const archivo = Archivo({
   weight: ["400"],
@@ -29,9 +28,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="max-w-[1920px] mx-auto">
+      <body className="max-w-[1920px] mx-auto ">
         <Navbar />
-        {/* <CanvasComponent /> */}
         <main>{children}</main>
       </body>
     </html>
