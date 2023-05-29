@@ -1,178 +1,490 @@
 /*eslint-disable*/
 import { useRef, useEffect } from "react";
-
+import * as THREE from "three";
 export const useCanvas = () => {
   const canvasRef = useRef(null);
   useEffect(() => {
-    const width = window.innerWidth * 0.75;
-    const height = window.innerHeight * 0.75;
-    const gl=
-      canvasRef.current?.getContext("webgl");
-
-    const mouse = { x: 0, y: 0 };
-
-    const numMetaballs = 30;
-    const metaballs = [];
-    for (let i = 0; i < numMetaballs; i++) {
-      const radius = Math.random() * 60 + 10;
-      metaballs.push({
-        x: Math.random() * (width - 2 * radius) + radius,
-        y: Math.random() * (height - 2 * radius) + radius,
-        vx: (Math.random() - 0.5) * 3,
-        vy: (Math.random() - 0.5) * 3,
-        r: radius * 0.75,
+    let width = canvasRef.current.offsetWidth,
+        height = canvasRef.current.offsetHeight;
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvasRef.current,
+      antialias: true,
+      alpha: true
+    });
+    let scene,camera
+    scene = new THREE.Scene();
+  
+    const setup = () => {
+      renderer.setPixelRatio( window.devicePixelRatio );
+      renderer.setSize(width, height);
+      renderer.setClearColor(0xebebeb, 0);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMapSoft = true;
+    
+      scene.fog = new THREE.Fog(0x000000, 10, 950);
+    
+      const aspectRatio = width / height;
+      const fieldOfView = 100;
+      const nearPlane = 0.1;
+      const farPlane = 10000;
+      const camera = new THREE.PerspectiveCamera(
+        fieldOfView,
+        aspectRatio,
+        nearPlane,
+        farPlane
+      );
+      camera.position.x = 0;
+      camera.position.y = 0;
+      camera.position.z = 300;
+    }
+    setup();
+    
+    
+    /*--------------------
+    Lights
+    --------------------*/
+    let hemisphereLight, shadowLight, light2,light3;
+    const createLights = () => {
+      hemisphereLight = new THREE.HemisphereLight(0xffffff,0x000000, .5)
+      
+      shadowLight = new THREE.DirectionalLight(0xff8f16, .4);
+      shadowLight.position.set(0, 450, 350);
+      shadowLight.castShadow = true;
+    
+      shadowLight.shadow.camera.left = -650;
+      shadowLight.shadow.camera.right = 650;
+      shadowLight.shadow.camera.top = 650;
+      shadowLight.shadow.camera.bottom = -650;
+      shadowLight.shadow.camera.near = 1;
+      shadowLight.shadow.camera.far = 1000;
+    
+      shadowLight.shadow.mapSize.width = 4096;
+      shadowLight.shadow.mapSize.height = 4096;
+      
+      light2 = new THREE.DirectionalLight(0xfff150, .25);
+      light2.position.set(-600, 350, 350);
+      
+      light3 = new THREE.DirectionalLight(0xfff150, .15);
+      light3.position.set(0, -250, 300);
+    
+      scene.add(hemisphereLight);  
+      scene.add(shadowLight);
+      scene.add(light2);
+      scene.add(light3);
+    }
+    createLights();
+    
+    
+    /*--------------------
+    Bubble
+    --------------------*/
+    const vertex = width > 575 ? 80 : 40;
+    const bubbleGeometry = new THREE.SphereGeometry( 120, vertex, vertex );
+    let bubble;
+    const createBubble = () => {
+     const vertices=bubbleGeometry.attributes.position.array;
+      for(let i = 0; i < vertices.length; i++) {
+        let vector = vertices[i];
+        // vector.original = vector.clone();  
+      }
+      const bubbleMaterial = new THREE.MeshStandardMaterial({
+        emissive: 0xbd4be3,
+        emissiveIntensity: 0.5,
+        roughness: 0.61,
+        metalness: 0.21,
+        side: THREE.FrontSide,
+        //wireframe: true
       });
+      bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+      bubble.castShadow = true;
+      bubble.receiveShadow = false;
+      scene.add(bubble);
     }
-    const vertexShaderSrc = `
-        attribute vec2 position;
-
-        void main() {
-        // position specifies only x and y.
-        // We set z to be 0.0, and w to be 1.0
-        gl_Position = vec4(position, 0.0, 1.0);
-        }
-        `;
-
-    const fragmentShaderSrc =
-      `
-        precision highp float;
-
-        const float WIDTH = ` +
-      (width >> 0) +
-      `.0;
-        const float HEIGHT = ` +
-      (height >> 0) +
-      `.0;
-
-        uniform vec3 metaballs[` +
-      numMetaballs +
-      `];
-
-        void main(){
-        float x = gl_FragCoord.x;
-        float y = gl_FragCoord.y;
-
-        float sum = 0.0;
-        for (int i = 0; i < ` +
-      numMetaballs +
-      `; i++) {
-        vec3 metaball = metaballs[i];
-        float dx = metaball.x - x;
-        float dy = metaball.y - y;
-        float radius = metaball.z;
-
-        sum += (radius * radius) / (dx * dx + dy * dy);
-        }
-
-        if (sum >= 0.99) {
-        gl_FragColor = vec4(mix(vec3(x / WIDTH, y / HEIGHT, 1.0), vec3(0, 0, 0), max(0.0, 1.0 - (sum - 0.99) * 100.0)), 1.0);
-        return;
-        }
-
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-        }
-
-        `;
-
-    const vertexShader = compileShader(vertexShaderSrc, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(fragmentShaderSrc, gl.FRAGMENT_SHADER);
-
-    const program = gl.createProgram();
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-    gl.useProgram(program);
-
-    const vertexData = new Float32Array([
-      -1.0,
-      1.0, // top left
-      -1.0,
-      -1.0, // bottom left
-      1.0,
-      1.0, // top right
-      1.0,
-      -1.0, // bottom right
-    ]);
-    const vertexDataBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexDataBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertexData, gl.STATIC_DRAW);
-
-    const positionHandle = getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(positionHandle);
-    gl.vertexAttribPointer(
-      positionHandle,
-      2, // position is a vec2
-      gl.FLOAT, // each component is a float
-      gl.FALSE, // don't normalize values
-      2 * 4, // two 4 byte float components per vertex
-      0 // offset into each span of vertex data
-    );
-
-    const metaballsHandle = getUniformLocation(program, "metaballs");
-
-    loop();
-    function loop() {
-      for (let i = 0; i < numMetaballs; i++) {
-        const metaball = metaballs[i];
-        metaball.x += metaball.vx;
-        metaball.y += metaball.vy;
-
-        if (metaball.x < metaball.r || metaball.x > width - metaball.r)
-          metaball.vx *= -1;
-        if (metaball.y < metaball.r || metaball.y > height - metaball.r)
-          metaball.vy *= -1;
-      }
-
-      const dataToSendToGPU = new Float32Array(3 * numMetaballs);
-      for (let i = 0; i < numMetaballs; i++) {
-        const baseIndex = 3 * i;
-        const mb = metaballs[i];
-        dataToSendToGPU[baseIndex + 0] = mb.x;
-        dataToSendToGPU[baseIndex + 1] = mb.y;
-        dataToSendToGPU[baseIndex + 2] = mb.r;
-      }
-      gl.uniform3fv(metaballsHandle, dataToSendToGPU);
-
-      //Draw
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-      requestAnimationFrame(loop);
+    createBubble();
+    
+    
+    /*--------------------
+    Plane
+    --------------------*/
+    const createPlane = () => {
+      const planeGeometry = new THREE.PlaneGeometry( 2000, 2000 );
+      const planeMaterial = new THREE.ShadowMaterial({
+        opacity: 0.15
+      });
+      const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+      plane.position.y = -150;
+      plane.position.x = 0;
+      plane.position.z = 0;
+      plane.rotation.x = Math.PI / 180 * -90;
+      plane.receiveShadow = true;
+      scene.add(plane);
     }
-
-    function compileShader(shaderSource, shaderType) {
-      const shader = gl.createShader(shaderType);
-      gl.shaderSource(shader, shaderSource);
-      gl.compileShader(shader);
-
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        throw "Shader compile failed with: " + gl.getShaderInfoLog(shader);
-      }
-
-      return shader;
+    createPlane();
+    
+    
+    /*--------------------
+    Map
+    --------------------*/
+    const map = (num, in_min, in_max, out_min, out_max) => {
+      return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
-
-    function getUniformLocation(program, name) {
-      const uniformLocation = gl.getUniformLocation(program, name);
-      if (uniformLocation === -1) {
-        throw "Can not find uniform " + name + ".";
-      }
-      return uniformLocation;
+    
+    
+    /*--------------------
+    Distance
+    --------------------*/
+    const distance = (a, b) => {
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+      const d = Math.sqrt( dx * dx + dy * dy );
+      return d;
     }
-
-    function getAttribLocation(program, name) {
-      const attributeLocation = gl.getAttribLocation(program, name);
-      if (attributeLocation === -1) {
-        throw "Can not find attribute " + name + ".";
-      }
-      return attributeLocation;
-    }
-    const handler = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+    
+    
+    /*--------------------
+    Mouse
+    --------------------*/
+    let mouse = new THREE.Vector2(0, 0);
+    const onMouseMove = (e) => {
+      TweenMax.to(mouse, 0.8, {
+        x : e.clientX || e.pageX || e.touches[0].pageX || 0,
+        y: e.clientY || e.pageY || e.touches[0].pageY || 0,
+        ease: Power2.easeOut
+      });
     };
-
-    canvasRef.current?.addEventListener("mousemove", handler);
-    return () => canvasRef.current?.removeEventListener("mousemove", handler);
+    ['mousemove', 'touchmove'].forEach(event => {
+      window.addEventListener(event, onMouseMove);  
+    });
+    
+    
+    /*--------------------
+    Spring
+    --------------------*/
+    let spring = {
+      scale: 1
+    };
+    const clicking = {
+      down: () => {
+        TweenMax.to(spring, .7, {
+          scale: .7, 
+          ease: Power3.easeOut
+        });
+      },
+      up: () => {
+        TweenMax.to(spring, .9, {
+          scale: 1, 
+          ease: Elastic.easeOut
+        });
+      }
+    };
+    ['mousedown', 'touchstart'].forEach(event => {
+      window.addEventListener(event, clicking.down);
+    });
+    ['mouseup', 'touchend'].forEach(event => {
+      window.addEventListener(event, clicking.up);
+    });
+    
+    
+    /*--------------------
+    Resize
+    --------------------*/
+    const onResize = () => {
+      canvas.style.width = '';
+      canvas.style.height = '';
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix(); 
+      maxDist = distance(mouse, {x: width / 2, y: height / 2});
+      renderer.setSize(width, height);
+    }
+    let resizeTm;
+    window.addEventListener('resize', function(){
+      resizeTm = clearTimeout(resizeTm);
+      resizeTm = setTimeout(onResize, 200);
+    });
+    
+    
+    /*--------------------
+    Noise
+    --------------------*/
+    let dist = new THREE.Vector2(0, 0);
+    let maxDist = distance(mouse, {x: width / 2, y: height / 2});
+    const updateVertices = (time) => {
+      dist = distance(mouse, {x: width / 2, y: height / 2});
+      dist /= maxDist;
+      dist = map(dist, 1, 0, 0, 1);
+      const vertices=bubbleGeometry.attributes.position.array;
+      for(let i = 0; i < vertices.length; i++) {
+        let vector = vertices[i];
+        // vector.copy(vector.original);
+        let perlin = noise.simplex3(
+          (vector.x * 0.006) + (time * 0.0005),
+          (vector.y * 0.006) + (time * 0.0005),
+          (vector.z * 0.006)
+        );
+        let ratio = ((perlin * 0.3 * (dist + 0.1)) + 0.8);
+        vector.multiplyScalar(ratio);
+      }
+      bubbleGeometry.verticesNeedUpdate = true;
+    }
+    
+    
+    /*--------------------
+    Animate
+    --------------------*/
+    const render = (a) => {
+      requestAnimationFrame(render);
+      bubble.rotation.y= -4 + map(mouse.x, 0, width, 0, 4);
+      bubble.rotation.z= 4 + map(mouse.y, 0, height, 0, -4);
+      bubble.scale.set(spring.scale, spring.scale, spring.scale);
+      updateVertices(a);
+      renderer.clear();
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(render);
+    console.log(renderer.render(scene, camera));
+    renderer.render(scene, camera);
+        
+//     const renderer = new THREE.WebGLRenderer({
+//       canvas: canvasRef.current,
+//       antialias: true,
+//       alpha: true
+//     });
+//     let scene,camera
+//     scene = new THREE.Scene();
+    
+//     const setup = () => {
+//       renderer.setPixelRatio( window.devicePixelRatio );
+//       renderer.setSize(width, height);
+//       renderer.setClearColor(0xebebeb, 0);
+//       renderer.shadowMap.enabled = true;
+//       renderer.shadowMapSoft = true;
+    
+//       scene.fog = new THREE.Fog(0x000000, 10, 950);
+    
+//       const aspectRatio = width / height;
+//       const fieldOfView = 100;
+//       const nearPlane = 0.1;
+//       const farPlane = 10000;
+//       camera = new THREE.PerspectiveCamera(
+//         fieldOfView,
+//         aspectRatio,
+//         nearPlane,
+//         farPlane
+//       );
+//       camera.position.x = 0;
+//       camera.position.y = 0;
+//       camera.position.z = 300;
+//     }
+//     setup();
+    
+    
+//     /*--------------------
+//     Lights
+//     --------------------*/
+//     let hemisphereLight, shadowLight, light2,light3;
+//     const createLights = () => {
+//       hemisphereLight = new THREE.HemisphereLight(0xffffff,0x000000, .5)
+      
+//       shadowLight = new THREE.DirectionalLight(0xff8f16, .4);
+//       shadowLight.position.set(0, 450, 350);
+//       shadowLight.castShadow = true;
+    
+//       shadowLight.shadow.camera.left = -650;
+//       shadowLight.shadow.camera.right = 650;
+//       shadowLight.shadow.camera.top = 650;
+//       shadowLight.shadow.camera.bottom = -650;
+//       shadowLight.shadow.camera.near = 1;
+//       shadowLight.shadow.camera.far = 1000;
+    
+//       shadowLight.shadow.mapSize.width = 4096;
+//       shadowLight.shadow.mapSize.height = 4096;
+      
+//       light2 = new THREE.DirectionalLight(0xfff150, .25);
+//       light2.position.set(-600, 350, 350);
+      
+//       light3 = new THREE.DirectionalLight(0xfff150, .15);
+//       light3.position.set(0, -250, 300);
+    
+//       scene.add(hemisphereLight);  
+//       scene.add(shadowLight);
+//       scene.add(light2);
+//       scene.add(light3);
+//     }
+//     createLights();
+    
+    
+//     /*--------------------
+//     Bubble
+//     --------------------*/
+//     const vertex = width > 575 ? 80 : 40;
+//     const bubbleGeometry = new THREE.SphereGeometry( 120, vertex, vertex );
+//     let bubble;
+//     const createBubble = () => {
+//  const  vertices = bubbleGeometry.attributes.position.array;
+//  console.log(bubbleGeometry.attributes);
+//       for(let i = 0; i < vertices.length; i++) {
+//         let vector = vertices[i];
+//         console.log(vector);
+//         vector.original = vector.clone();  
+//       }
+//       const bubbleMaterial = new THREE.MeshStandardMaterial({
+//         emissive: 0xbd4be3,
+//         emissiveIntensity: 0.5,
+//         roughness: 0.61,
+//         metalness: 0.21,
+//         side: THREE.FrontSide,
+//         //wireframe: true
+//       });
+//       bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+//       bubble.castShadow = true;
+//       bubble.receiveShadow = false;
+//       scene.add(bubble);
+//     }
+//     createBubble();
+    
+    
+//     /*--------------------
+//     Plane
+//     --------------------*/
+//     const createPlane = () => {
+//       const planeGeometry = new THREE.PlaneGeometry( 2000, 2000 );
+//       const planeMaterial = new THREE.ShadowMaterial({
+//         opacity: 0.15
+//       });
+//       const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+//       plane.position.y = -150;
+//       plane.position.x = 0;
+//       plane.position.z = 0;
+//       plane.rotation.x = Math.PI / 180 * -90;
+//       plane.receiveShadow = true;
+//       scene.add(plane);
+//     }
+//     createPlane();
+    
+    
+//     /*--------------------
+//     Map
+//     --------------------*/
+//     const map = (num, in_min, in_max, out_min, out_max) => {
+//       return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+//     }
+    
+    
+//     /*--------------------
+//     Distance
+//     --------------------*/
+//     const distance = (a, b) => {
+//       const dx = a.x - b.x;
+//       const dy = a.y - b.y;
+//       const d = Math.sqrt( dx * dx + dy * dy );
+//       return d;
+//     }
+    
+    
+//     /*--------------------
+//     Mouse
+//     --------------------*/
+//     let mouse = new THREE.Vector2(0, 0);
+//     const onMouseMove = (e) => {
+//       TweenMax.to(mouse, 0.8, {
+//         x : e.clientX || e.pageX || e.touches[0].pageX || 0,
+//         y: e.clientY || e.pageY || e.touches[0].pageY || 0,
+//         ease: Power2.easeOut
+//       });
+//     };
+//     ['mousemove', 'touchmove'].forEach(event => {
+//       window.addEventListener(event, onMouseMove);  
+//     });
+    
+    
+//     /*--------------------
+//     Spring
+//     --------------------*/
+//     let spring = {
+//       scale: 1
+//     };
+//     const clicking = {
+//       down: () => {
+//         TweenMax.to(spring, .7, {
+//           scale: .7, 
+//           ease: Power3.easeOut
+//         });
+//       },
+//       up: () => {
+//         TweenMax.to(spring, .9, {
+//           scale: 1, 
+//           ease: Elastic.easeOut
+//         });
+//       }
+//     };
+//     ['mousedown', 'touchstart'].forEach(event => {
+//       window.addEventListener(event, clicking.down);
+//     });
+//     ['mouseup', 'touchend'].forEach(event => {
+//       window.addEventListener(event, clicking.up);
+//     });
+    
+    
+//     /*--------------------
+//     Resize
+//     --------------------*/
+//     const onResize = () => {
+//       canvas.style.width = '';
+//       canvas.style.height = '';
+//       width = canvas.offsetWidth;
+//       height = canvas.offsetHeight;
+//       camera.aspect = width / height;
+//       camera.updateProjectionMatrix(); 
+//       maxDist = distance(mouse, {x: width / 2, y: height / 2});
+//       renderer.setSize(width, height);
+//     }
+//     let resizeTm;
+//     window.addEventListener('resize', function(){
+//       resizeTm = clearTimeout(resizeTm);
+//       resizeTm = setTimeout(onResize, 200);
+//     });
+    
+    
+//     /*--------------------
+//     Noise
+//     --------------------*/
+//     let dist = new THREE.Vector2(0, 0);
+//     let maxDist = distance(mouse, {x: width / 2, y: height / 2});
+//     const updateVertices = (time) => {
+//       dist = distance(mouse, {x: width / 2, y: height / 2});
+//       dist /= maxDist;
+//       dist = map(dist, 1, 0, 0, 1);
+//       for(let i = 0; i < bubbleGeometry.vertices.length; i++) {
+//         let vector = bubbleGeometry.vertices[i];
+//         vector.copy(vector.original);
+//         let perlin = noise.simplex3(
+//           (vector.x * 0.006) + (time * 0.0005),
+//           (vector.y * 0.006) + (time * 0.0005),
+//           (vector.z * 0.006)
+//         );
+//         let ratio = ((perlin * 0.3 * (dist + 0.1)) + 0.8);
+//         vector.multiplyScalar(ratio);
+//       }
+//       bubbleGeometry.verticesNeedUpdate = true;
+//     }
+    
+    
+//     /*--------------------
+//     Animate
+//     --------------------*/
+//     const render = (a) => {
+//       requestAnimationFrame(render);
+//       bubble.rotation.y= -4 + map(mouse.x, 0, width, 0, 4);
+//       bubble.rotation.z= 4 + map(mouse.y, 0, height, 0, -4);
+//       bubble.scale.set(spring.scale, spring.scale, spring.scale);
+//       updateVertices(a);
+//       renderer.clear();
+//       renderer.render(scene, camera);
+//     }
+//     requestAnimationFrame(render);
+//     renderer.render(scene, camera);
   }, []);
   return { canvasRef };
 };
