@@ -10,7 +10,7 @@ type Props = {
 export default function MobileMenu({ closeMenu }: Props) {
   return (
     <ul
-      className={`${styles.ul_menu} max-w-[948px] w-full font-raleway bg-white flex flex-col gap-y-10 pl-10 pt-8 font-black absolute  top-24 right-0 z-10 text-2xl`}
+      className={`${styles.ul_menu} max-w-[948px] w-full font-raleway bg-white flex flex-col gap-y-10 pl-10 pt-8 font-black xs:text-base md:text-lg absolute  top-16 right-0 z-50 text-2xl`}
     >
       {pages.map((page) => (
         <Link
